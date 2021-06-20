@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friendships</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container p-5 bg-light">
+        <div class="row d-flex justify-content-around">
+            <div class="col-5">
+                <h1 class='mb-4'>Friendships</h1>
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Friend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in all_friends: %}
+                            <tr>
+                                <td>{{row['first_name']}} {{row['last_name']}}</td>
+                                <td>{{row['friends.first_name']}} {{row['friends.last_name']}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-5">
+                <h1>Add User</h1>
+                <form action='/friendships/newuser' method="POST">
+                    <label class='form-label' for='first_name'>First Name:</label>
+                    <input class='form-control' type='text' name='first_name' id='first_name'>
+                    <label class='form-label' for='last_name'>Last Name:</label>
+                    <input class='form-control' type='text' name='last_name' id='last_name'>
+                    <input class="btn btn-dark mt-3" type="submit" value="Add User">
+                </form>
+                <h1 class="mt-4">Create Friendship</h1>
+                <form action='/friendships/create' method="POST">
+                    <label class='form-label' for='user_id'>User:</label>
+                    <select class='form-select' name='user_id' id='user_id'>
+                        {% for user in all_users: %}
+                            <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <label class='form-label' for='friend_id'>Friend:</label>
+                    <select class='form-select' name='friend_id' id='friend_id'>
+                        {% for friend in all_users: %}
+                            <option value="{{friend.id}}">{{friend.first_name}} {{friend.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="btn btn-dark mt-3" type="submit" value="Create">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
